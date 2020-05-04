@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/tx
+		 http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="es.profe.empleados" />
+	<tx:annotation-driven transaction-manager="txManagerJpa"/>
+	
+	<!-- Transaction config -->
+
+	<bean id="txManagerJpa" lazy-init="true"
+			class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="miEMF"/>
+	</bean>
+
+	<!-- DATA SOURCE -->
+	<bean id="emDSMysql" class="org.apache.commons.dbcp2.BasicDataSource"
+		lazy-init="true" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/empleados_simple" />
+		<property name="username" value="maza" />
+		<property name="password" value="maza" />
+	</bean>
+
+	<!-- JPA -->
+   	<bean id="miEMF"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" lazy-init="true">
+		<property name="dataSource" ref="emDSMysql" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="false" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

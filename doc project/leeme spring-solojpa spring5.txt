@@ -1,0 +1,16 @@
+Proyecto de spring 5 con acceso a bds mediante jpa. Utilizamos dos daos diferentes (un fake
+y un springjpa). El primer commit es sólo de consola y con maven. Tira de la bd empleados_simple.
+
+Voy a intentar mantener maven y juntarlo con ant para desplegar en Tomcat cuando lo tenga
+preparado en futuros commits.
+
+* La clase Empleado está configurada mediante anotaciones JPA.
+
+* La clase GestorJpa se usa para pruebas.
+
+* DAOEmpFake tira de una bd en memoria
+
+* DAOEmpJPA está configurada mediante anotaciones.
+
+* NegocioEmpleadosImpl usa anotaciones para su declaración como bean y para implementar
+transacciones.

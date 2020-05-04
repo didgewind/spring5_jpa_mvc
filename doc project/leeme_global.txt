@@ -1,0 +1,148 @@
+14 proyectos de spring
+
+Uno es consola básico, hay otro de consola con aspectos, cinco mvc,
+uno de jdbcTemplate y HbTemplate, JPA con AspectJ weaving, HbTemplate,
+otro de spring-batch y el de jsf e hibernate.
+
+
+* springbasic-initial
+---------------------
+
+Proyecto spring básico con Adivina como clase dependiente y NumGeneratorImp
+como clase de la que depende. Los beans están configurados en beans.xml
+pero utilizamos autowiring anotado.
+
+AdivinaTest es un intento básico de probar JUnit con Spring
+
+
+* springbasic-declarativo
+-------------------------
+
+proyecto spring con factoría explícita (que no se usa), interfaz NumGenerator con dos
+clases de implementación, clases Adivina y Dibuja dependientes de dicho interfaz y clase
+Gestor que depende de Adivina y Dibuja (las tres implementan el interfaz Goer). Además
+hay dos aspectos implementados, un before y un after, que se aplican sobre cualquier método
+go de cualquier clase.
+
+Toda la configuración es declarativa exceptuando los aspectos. Tira de Maven
+
+* spring 4 empleados memoria
+----------------------------
+
+Proyecto simple spring con capa de acceso a datos (mock), negocio
+(que delega en el dao) y un gestor de testeo, que implementa métodos
+para generar
+diferentes ficheros con info de los empleados para usarlos en
+el proyecto springbatch complejo. El dao clona
+todo para evitar interacciones no deseadas del modelo con otras capas.
+Inicializamos el dao con objetos Empleado declarados en el .xml.
+
+Lo tenemos de base para usar en otros proyectos (por ejemplo, en el
+spring 4 mvc).
+
+* spring-dataaccess
+-------------------
+
+Proyecto básico de spring con acceso a bds. Utilizamos tres daos diferentes (un fake,
+un jdbctemplate y un springhibernate) y dos clases de negocio intermedias sobre las 
+que aplicamos politicas transaccionales (leer en la doc específica del proyecto xq
+dos clases de negocio).
+
+* spring-solojpa
+----------------
+
+Proyecto de spring similar al anterior, pero en este caso utilizamos un dao jpa y
+únicamente mapeamos la clase Empleado, que además está configurada mediante anotaciones
+JPA. Hemos separado el proyecto JPA del dataaccess porque al estar la clase Empleado
+configurada mediante anotaciones Y mapeada mediante un fichero .xml saltaba un conflicto
+de doble mapeo. La clase de negocio intermedia sobre la que aplicamos politica transaccional 
+está anotada con aspectj, y las transacciones también son aspectj
+
+* spring empleados hb
+---------------------
+
+Proyecto básico de gestión de empleado spring 3 con acceso a bds con hb 3. Utilizamos dos daos diferentes 
+(un fake y un springhibernate) y dos clases de negocio intermedias sobre las 
+que aplicamos politicas transaccionales (leer en la doc específica del proyecto xq
+dos clases de negocio). Es bastante similar al proyecto spring-dataaccess, pero además metemos algo de aspectos,
+una introducción, un bean postprocessor, y utilizamos el jar resultante (como dependencia maven)
+en el proyecto mvc_empleados. El fichero de creación de la bd crea las tablas direcciones y empleados
+pero las inserciones de los empleados ponen a null la direccion y el tutor (relación de empleado
+consigo mismo)
+
+
+* jsf_primefaces_hibernate_spring_maven
+----------------------------
+
+Aplicación que integra jsf, hibernate y spring. Spring lo usamos para integrar capas, un ejemplo 
+de aspectos (declarativos), transacciones y seguridad. Los beans jsf están todos configurados con 
+anotaciones. La parte de jsf (control y presentación) y la de hibernate (dao) están totalmente 
+separadas, así que podríamos tener fácilmente un jsf y spring o un spring con hibernate.
+
+
+* spring mvc original
+---------------------
+
+Aplicación sencilla para ver algo de mvc con spring en la que la definición y mapeo de controllers
+se hace de forma declarativa tradicional en el fichero beans.xml. Usa log4j 1.2 y recursos idiomáticos.
+Creo que usamos Spring 2.5
+
+
+* spring mvc nuevo
+------------------
+
+Aplicación sencilla para ver algo de mvc con spring en la que empleamos todas las anotaciones que
+podemos. Usa spring 3.2.
+
+
+* mvc_empleados
+---------------
+
+Proyecto web de empleados con maven, que utiliza el jar generado en spring empleados hb.
+Usa anotaciones, un formulario spring, y spring security. Usa Spring 3.2. Es bastante completo,
+usamos diferentes métodos para los diferentes botones del formulario, etc.
+
+
+* spring 4 mvc
+--------------
+
+Proyecto web de empleados sin maven, con spring 4.3, todo el código fuente de daos, negocio, etc
+en el proyecto. Es bastante completo, usamos diferentes métodos para los diferentes botones del formulario,
+@SessionAttributes, i18n y dos tipos de validaciones (spring y anotaciones estándar). Añade un jdbc template
+a partir de un commit.
+
+
+* spring batch
+--------------
+
+Aplicación spring batch consistente en un proceso que lee datos de un fichero en texto plano, 
+los transforma y genera un resultado en un fichero .xml.
+
+* spring batch complejo
+-----------------------
+
+Proyecto sin maven spring batch complejo. Basado en el código de
+Spring Batch in Action. El proceso consiste en la lectura de un fichero
+con información sobre los productos de un catálogo y el paso de esa
+información a una base de datos. Añadimos también ficheros con información
+de empleados. Tenemos diferentes versiones en git, mostrando el team - history
+del proyecto y seleccionando show all branches and tags en esa ventana nos
+podemos ir moviendo por las diferentes versiones (haciendo checkout de la
+versión que queramos).
+
+
+* empleados hb spring mvc sec ws 4
+----------------------------------
+
+Proyecto sin maven de gestión de empleado spring 4 con acceso a bds, aspectos, mvc, seguridad y 
+servicios web. Ataca la bd empleados compleja. Por un lado están las clases de una app hibernate sin
+spring (EmpleadosDAOHB, GestorEmpleados), por otro con spring integrado (EmpleadosDAOHBSpring,
+GestorEmpSpring) y además tenemos controladores mvc, un controlador rest y clases inicializadoras
+para arrancar spring sin ficheros de configuración xml. Existen tres daos diferentes (un fake, 
+otro hibernate y un springhibernate), 
+una clase de negocio y dos gestores de consola (uno hibernate y otro springhibernate).
+Definimos beans con anotaciones y xml, un loggingaspect y transacciones declaradas.
+Usamos aspectj ltw para que salten las transacciones al invocar métodos internamente.
+El mvc trabaja con empleados con operaciones básicas, y aplicamos seguridad. También
+tocamos ws con spring.
+
